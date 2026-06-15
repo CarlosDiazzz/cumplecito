@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-petal: #FFDBDB;
+  --color-dusty: #FDC3D1;
+  --color-rose: #FDA8BF;
+  --color-mauve: #FB8CAC;
+  --color-accent: #FF5C89;
+  --color-charcoal: #4A3B3E;
+
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-petal text-charcoal font-sans overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
