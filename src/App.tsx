@@ -5,6 +5,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import OrigamiLily from './components/OrigamiLily';
 import OrigamiRose from './components/OrigamiRose';
 import GlowFlower from './components/GlowFlower';
+import CssRose from './components/CssRose';
+import BeeFlower from './components/BeeFlower';
 import BeeSwarm from './components/BeeSwarm';
 import ParticleLayer from './components/ParticleLayer';
 import MessageCard from './components/MessageCard';
@@ -43,11 +45,12 @@ function App() {
       
       {/* --- HERO SECTION --- */}
       <section className="min-h-screen flex flex-col items-center justify-center p-4 relative z-10">
-        <GlowFlower className="absolute bottom-[5%] left-[5%] z-20 scale-75" />
-        <GlowFlower className="absolute bottom-[8%] right-[5%] scale-x-[-1] z-20 scale-75" />
-        
-        <OrigamiRose color="white" className="top-[10%] left-[10%]" delay={0.2} />
-        <OrigamiRose color="pink" className="top-[15%] right-[12%]" delay={0.6} />
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <GlowFlower className="absolute bottom-[5%] left-[2%] scale-75 opacity-90" />
+          <GlowFlower className="absolute bottom-[8%] right-[2%] scale-x-[-1] scale-75 opacity-90" />
+          <CssRose className="top-[10%] left-[10%]" variant="white" scale={0.9} delay={0.2} />
+          <CssRose className="top-[15%] right-[12%]" variant="pink" scale={1} delay={0.6} />
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -67,9 +70,9 @@ function App() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.8, ease: "backOut" }}
-          className="z-10"
+          className="z-10 flex flex-col items-center justify-center min-h-[500px]"
         >
-          <OrigamiLily />
+          <BeeFlower />
         </motion.div>
 
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
@@ -78,9 +81,17 @@ function App() {
       </section>
 
       {/* --- OUR STORY SECTION --- */}
-      <section ref={storyRef} className="py-32 px-6 max-w-5xl mx-auto relative z-10">
-        <OrigamiRose color="white" className="-top-10 -left-10" delay={0.5} />
-        <h2 className="text-5xl md:text-6xl text-accent font-serif mb-16 text-center">Nuestra Historia</h2>
+      <section ref={storyRef} className="py-32 relative z-10 w-full overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none -z-10">
+          <CssRose className="top-10 left-10" variant="pink" scale={0.7} delay={0.5} />
+          <CssRose className="top-[40%] right-[10%]" variant="white" scale={0.8} delay={1.2} />
+          <GlowFlower className="absolute top-[10%] right-[2%] scale-75 opacity-90 rotate-12" />
+          <GlowFlower className="absolute top-[45%] left-[-2%] scale-60 opacity-90 -rotate-12" />
+          <GlowFlower className="absolute bottom-[0%] right-[5%] scale-75 opacity-90" />
+        </div>
+        
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="text-5xl md:text-6xl text-accent font-serif mb-16 text-center">Nuestra Historia</h2>
         
         <div className="space-y-24 relative">
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-dusty/40 -translate-x-1/2 hidden md:block" />
@@ -118,14 +129,23 @@ function App() {
             <div className="md:w-1/2" />
           </div>
         </div>
+        </div>
       </section>
 
       {/* --- BIRTHDAY WISHES SECTION --- */}
-      <section ref={wishesRef} className="py-32 px-6 bg-white/30 backdrop-blur-sm relative overflow-hidden z-10">
-        <OrigamiRose color="pink" className="bottom-10 right-10" delay={0.2} />
-        <OrigamiRose color="white" className="top-10 right-[20%]" delay={0.4} />
+      <section ref={wishesRef} className="py-32 relative overflow-hidden z-10 w-full bg-white/30 backdrop-blur-sm">
+        <div className="absolute inset-0 pointer-events-none -z-10">
+          <CssRose className="bottom-10 right-10" variant="pink" scale={1.1} delay={0.2} />
+          <CssRose className="top-10 right-[20%]" variant="white" scale={0.9} delay={0.4} />
+          <CssRose className="top-[40%] left-[5%]" variant="pink" scale={0.8} delay={0.7} />
+          <GlowFlower className="absolute top-[5%] left-[2%] scale-75 opacity-90" />
+          <GlowFlower className="absolute top-[15%] right-[2%] scale-75 opacity-90 rotate-[-10deg]" />
+          <GlowFlower className="absolute top-[45%] right-[-1%] scale-65 opacity-90 rotate-[20deg]" />
+          <GlowFlower className="absolute bottom-[20%] left-[5%] scale-90 opacity-90 -rotate-[10deg]" />
+          <GlowFlower className="absolute bottom-[5%] right-[2%] scale-80 opacity-95 rotate-12" />
+        </div>
         
-        <div className="max-w-3xl mx-auto text-center relative z-10">
+        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-5xl md:text-6xl text-accent font-serif mb-12">Mis Deseos para Ti</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="p-8 rounded-3xl bg-white/50 border border-dusty shadow-sm hover:shadow-md transition-shadow">

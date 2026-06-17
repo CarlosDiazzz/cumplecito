@@ -6,8 +6,9 @@ interface GlowFlowerProps {
 
 const GlowFlower = ({ className = "" }: GlowFlowerProps) => {
   return (
-    <div className={`glow-flower-container ${className}`}>
-      {/* Flower 1 (Center) */}
+    <div className={className}>
+      <div className="glow-flower-container">
+        {/* Flower 1 (Center) */}
       <div className="glow-flower glow-flower--1">
         <div className="flower__leafs">
           <div className="flower__leaf flower__leaf--1"></div>
@@ -55,6 +56,7 @@ const GlowFlower = ({ className = "" }: GlowFlowerProps) => {
         <div className="flower__line">
           <div className="flower__line__leaf flower__line__leaf--1"></div>
         </div>
+      </div>
       </div>
     </div>
   );

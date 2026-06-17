@@ -5,23 +5,25 @@ const BeeFlower = () => {
   const beeRef = useRef<SVGSVGElement>(null);
   
   useEffect(() => {
-    // Handling the module export difference across different build environments
     const anime_any = anime_module as any;
     const anime_fn = anime_any.default || anime_any;
     
-    if (!anime_fn || (typeof anime_fn !== 'function' && !anime_fn.timeline)) {
-       console.error("Anime.js could not be loaded correctly");
-       return;
-    }
+    if (!anime_fn) return;
 
     const path = anime_fn.path('#beePath');
 
-    const timeline = anime_fn.timeline({
+    // Estado inicial
+    anime_fn.set('.bee-stem', { scaleY: 0 });
+    anime_fn.set('.bee-petals', { scale: 0 });
+    anime_fn.set(beeRef.current, { opacity: 0 });
+
+    // 1. ANIMACIÓN DE ENTRADA
+    const tl = anime_fn.timeline({
       easing: 'easeInOutExpo',
-      duration: 1000,
+      duration: 1500,
     });
 
-    timeline.add({
+    tl.add({
       targets: '.bee-stem',
       scaleY: [0, 1],
       transformOrigin: 'bottom center',
@@ -29,20 +31,20 @@ const BeeFlower = () => {
     .add({
       targets: '.bee-leaf',
       rotate: [0, 45],
-      duration: 800,
-    })
+      duration: 1000,
+    }, '-=500')
     .add({
       targets: '.bee-petals',
       scale: [0, 1],
-      duration: 1000,
+      duration: 1200,
     }, '-=800')
     .add({
       targets: beeRef.current,
       opacity: [0, 1],
-      duration: 500,
-    }, '-=500');
+      duration: 800,
+    }, '-=600');
 
-    // Flying bee animation
+    // 2. ANIMACIONES EN LOOP
     anime_fn({
       targets: beeRef.current,
       translateX: path('x'),
@@ -53,81 +55,78 @@ const BeeFlower = () => {
       easing: 'linear'
     });
 
-    // Gentle flower movements after entrance
-    timeline.finished.then(() => {
-      anime_fn({
-        targets: '.bee-leaf',
-        rotate: 40,
-        duration: 3000,
-        loop: true,
-        direction: 'alternate',
-        easing: 'easeInOutQuad'
-      });
-      anime_fn({
-        targets: '.bee-petals',
-        scale: 1.05,
-        duration: 4000,
-        loop: true,
-        direction: 'alternate',
-        easing: 'easeInOutQuad'
-      });
+    anime_fn({
+      targets: '.bee-flower-main-group',
+      rotate: [-1.5, 1.5],
+      duration: 6000,
+      loop: true,
+      direction: 'alternate',
+      easing: 'easeInOutSine'
     });
+
   }, []);
 
   return (
-    <div className="relative w-[300px] h-[300px] flex items-center justify-center pointer-events-none select-none z-50">
-      <svg viewBox="-25 0 150 100" width="200" height="150" className="text-charcoal overflow-visible">
+    <div className="relative w-[700px] h-[700px] flex items-center justify-center pointer-events-none select-none z-50 overflow-visible">
+      {/* Flower SVG - Escalado para ser la protagonista */}
+      <svg viewBox="-120 -80 340 250" width="100%" height="100%" className="text-charcoal overflow-visible drop-shadow-2xl">
         <defs>
-          <mask id="mask-petals">
-            <rect width="100" height="100" fill="white" />
-            <g transform="translate(50 40)">
-              <circle r="11" fill="black" />
+          <mask id="mask-petals-final-large">
+            <rect x="-120" y="-80" width="340" height="250" fill="white" />
+            <g transform="translate(50 30)">
+              <circle r="15" fill="black" />
             </g>
           </mask>
         </defs>
         
-        <g transform="translate(50 98)">
-          <g className="bee-stem">
-            <line x1="0" y1="0" x2="0" y2="-58" stroke="currentColor" strokeWidth="2" />
-            <g fill="currentColor">
-              <g className="bee-leaf" transform="translate(0 -20) rotate(45)">
-                <path d="M 0 0 c 20 -8 15 -32 0 -42 -15 10 -20 34 0 42" />
-              </g>
-              <g transform="scale(-1 1)">
-                <g className="bee-leaf" transform="translate(0 -20) rotate(45)">
-                  <path d="M 0 0 c 20 -8 15 -32 0 -42 -15 10 -20 34 0 42" />
+        <g className="bee-flower-main-group" transform-origin="50 140">
+          {/* Tallo y Hojas - Más robustos */}
+          <g transform="translate(50 140)">
+            <g className="bee-stem">
+              <line x1="0" y1="0" x2="0" y2="-110" stroke="currentColor" strokeWidth="4" />
+              <g fill="currentColor">
+                <g className="bee-leaf" transform="translate(0 -40) rotate(45)">
+                  <path d="M 0 0 c 30 -15 25 -50 0 -65 -25 15 -30 50 0 65" />
+                </g>
+                <g transform="scale(-1 1)">
+                  <g className="bee-leaf" transform="translate(0 -40) rotate(45)">
+                    <path d="M 0 0 c 30 -15 25 -50 0 -65 -25 15 -30 50 0 65" />
+                  </g>
                 </g>
               </g>
             </g>
           </g>
-        </g>
 
-        <g mask="url(#mask-petals)">
-          <g transform="translate(50 40)">
-            <g fill="#FF5C89" className="bee-petals">
-              {[0, 72, 144, 216, 288].map(angle => (
-                <circle key={angle} transform={`rotate(${angle}) translate(0 -14)`} r="11" />
-              ))}
+          {/* Pétalos - Mucho más grandes */}
+          <g mask="url(#mask-petals-final-large)">
+            <g transform="translate(50 30)">
+              <g fill="#FF5C89" className="bee-petals">
+                {[0, 72, 144, 216, 288].map(angle => (
+                  <circle key={angle} transform={`rotate(${angle}) translate(0 -22)`} r="20" />
+                ))}
+              </g>
             </g>
           </g>
         </g>
 
-        <path id="beePath" fill="none" d="M -25 -20 a 30 30 0 0 0 60 0 30 30 0 0 0 -60 0 30 30 0 0 1 -60 0 30 30 0 0 1 60 0" />
+        {/* Camino de la abeja - Ajustado al nuevo tamaño de la flor */}
+        <path id="beePath" fill="none" d="M -100 -50 a 90 90 0 0 0 180 0 90 90 0 0 0 -180 0 90 90 0 0 1 -180 0 90 90 0 0 1 180 0" />
       </svg>
 
-      <svg id="bee" ref={beeRef} viewBox="-10.5 -10.5 21 21" className="absolute w-[50px] h-auto z-[60] opacity-0">
+      {/* Abeja - Mantiene su tamaño perfecto */}
+      <svg id="bee" ref={beeRef} viewBox="-10.5 -10.5 21 21" className="absolute w-[100px] h-auto z-[60] opacity-0 overflow-visible">
         <g transform="rotate(90) translate(0 -4)">
           <g stroke="black">
-            <circle fill="black" r="4" strokeWidth="1" />
-            <g fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path transform="rotate(45) translate(0 -4)" d="M 0 0 v -3" />
-              <path transform="rotate(-45) translate(0 -4)" d="M 0 0 v -3" />
+            <circle fill="black" r="4.5" strokeWidth="1" />
+            <g fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path transform="rotate(45) translate(0 -4)" d="M 0 0 v -3.5" />
+              <path transform="rotate(-45) translate(0 -4)" d="M 0 0 v -3.5" />
               <g fill="#e0f2fe">
-                <path transform="rotate(15)" d="M 0 0 h 7 a 3 3 0 0 1 0 6 q -4 0 -7 -6" />
-                <path transform="scale(-1 1) rotate(15)" d="M 0 0 h 7 a 3 3 0 0 1 0 6 q -4 0 -7 -6" />
+                <path transform="rotate(15)" d="M 0 0 h 9 a 4 4 0 0 1 0 8 q -5 0 -9 -8" />
+                <path transform="scale(-1 1) rotate(15)" d="M 0 0 h 9 a 4 4 0 0 1 0 8 q -5 0 -9 -8" />
               </g>
               <g fill="#fbbf24">
-                <path d="M 0 0 c 2 6 8 10 0 12 -8 -2 -2 -6 0 -12" />
+                <path d="M 0 0 c 3 8 10 14 0 16 -10 -2 -3 -8 0 -16" />
               </g>
             </g>
           </g>
