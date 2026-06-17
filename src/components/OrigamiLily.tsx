@@ -4,71 +4,80 @@ import { gsap } from 'gsap';
 const OrigamiLily = () => {
   const [isOpen, setIsOpen] = useState(false);
   const svgRef = useRef<SVGSVGElement>(null);
-  const petal1Ref = useRef<SVGPathElement>(null);
-  const petal2Ref = useRef<SVGPathElement>(null);
-  const petal3Ref = useRef<SVGPathElement>(null);
-  const petal4Ref = useRef<SVGPathElement>(null);
+  const layerRefs = useRef<(SVGPathElement | null)[]>([]);
 
-  // States for the paths
-  const paths = {
-    closed: [
-      "M 100 40 L 140 100 L 100 160 L 60 100 Z",
-      "M 100 40 L 140 100 L 100 160 L 60 100 Z",
-      "M 100 40 L 140 100 L 100 160 L 60 100 Z",
-      "M 100 40 L 140 100 L 100 160 L 60 100 Z",
-    ],
+  // Detailed Lily Paths - Layers for depth and realism in 2D
+  const lilyPaths = {
+    closed: "M 100 40 L 120 100 L 100 160 L 80 100 Z",
     open: [
-      "M 100 100 L 180 40 L 150 140 L 100 100 Z",
-      "M 100 100 L 20 40 L 50 140 L 100 100 Z",
-      "M 100 100 L 100 190 L 150 140 L 100 100 Z",
-      "M 100 100 L 100 190 L 50 140 L 100 100 Z",
+      // Outer petals
+      "M 100 100 C 100 100 150 20 180 40 C 200 60 160 120 100 100", // Top Right
+      "M 100 100 C 100 100 50 20 20 40 C 0 60 40 120 100 100",   // Top Left
+      "M 100 100 C 100 100 150 180 180 160 C 200 140 160 80 100 100", // Bottom Right
+      "M 100 100 C 100 100 50 180 20 160 C 0 140 40 80 100 100",   // Bottom Left
+      // Inner petals
+      "M 100 100 L 130 60 L 100 30 L 70 60 Z", // Center top
+      "M 100 100 L 130 140 L 100 170 L 70 140 Z", // Center bottom
     ]
   };
 
+  const colors = ["#FDA8BF", "#FDC3D1", "#FB8CAC", "#E0A8B1", "#FF5C89", "#FFFFFF"];
+
   useEffect(() => {
-    const refs = [petal1Ref, petal2Ref, petal3Ref, petal4Ref];
-    
-    refs.forEach((ref, index) => {
-      if (ref.current) {
-        gsap.to(ref.current, {
-          attr: { d: isOpen ? paths.open[index] : paths.closed[index] },
-          duration: 1.2,
-          ease: "elastic.out(1, 0.75)",
-          delay: index * 0.1
+    layerRefs.current.forEach((layer, i) => {
+      if (layer) {
+        gsap.to(layer, {
+          attr: { d: isOpen ? lilyPaths.open[i] : lilyPaths.closed },
+          duration: 1.5,
+          ease: isOpen ? "elastic.out(1, 0.5)" : "power2.inOut",
+          delay: i * 0.05
         });
       }
     });
 
     if (svgRef.current) {
       gsap.to(svgRef.current, {
-        scale: isOpen ? 1.1 : 1,
-        rotate: isOpen ? 5 : 0,
-        duration: 1,
-        ease: "power2.out"
+        scale: isOpen ? 1.2 : 1,
+        rotate: isOpen ? 10 : 0,
+        duration: 1.2,
+        ease: "back.out(1.7)"
       });
     }
   }, [isOpen]);
 
   return (
-    <div className="flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setIsOpen(!isOpen)}>
-      <svg
-        ref={svgRef}
-        width="300"
-        height="300"
-        viewBox="0 0 200 200"
-        className="drop-shadow-2xl"
-      >
-        <path ref={petal1Ref} d={paths.closed[0]} fill="#FDA8BF" stroke="#4A3B3E" strokeWidth="0.5" />
-        <path ref={petal2Ref} d={paths.closed[1]} fill="#FDC3D1" stroke="#4A3B3E" strokeWidth="0.5" />
-        <path ref={petal3Ref} d={paths.closed[2]} fill="#FB8CAC" stroke="#4A3B3E" strokeWidth="0.5" />
-        <path ref={petal4Ref} d={paths.closed[3]} fill="#E0A8B1" stroke="#4A3B3E" strokeWidth="0.5" />
+    <div className="flex flex-col items-center justify-center cursor-pointer select-none group" onClick={() => setIsOpen(!isOpen)}>
+      <div className="relative">
+        {/* Glow effect when open */}
+        <div className={`absolute inset-0 bg-accent/20 blur-3xl rounded-full transition-opacity duration-1000 ${isOpen ? 'opacity-100' : 'opacity-0'}`} />
         
-        {/* Subtle center detail */}
-        <circle cx="100" cy="100" r="2" fill="#FF5C89" className={isOpen ? "opacity-100" : "opacity-0 transition-opacity duration-1000"} />
-      </svg>
+        <svg
+          ref={svgRef}
+          width="350"
+          height="350"
+          viewBox="0 0 200 200"
+          className="drop-shadow-[0_10px_25px_rgba(0,0,0,0.1)] relative z-10"
+        >
+          {lilyPaths.open.map((_, i) => (
+            <path
+              key={i}
+              ref={el => { layerRefs.current[i] = el; }}
+              d={lilyPaths.closed}
+              fill={colors[i % colors.length]}
+              stroke="#4A3B3E"
+              strokeWidth="0.2"
+              fillOpacity={isOpen ? 0.9 : 0.4}
+            />
+          ))}
+          
+          {/* Detailed Stigma in center */}
+          <circle cx="100" cy="100" r={isOpen ? 4 : 0} fill="#FF5C89" className="transition-all duration-700 delay-500" />
+          <path d="M 100 100 L 100 90" stroke="#FF5C89" strokeWidth="1" className={isOpen ? "opacity-100" : "opacity-0"} />
+        </svg>
+      </div>
       
-      <p className="mt-4 font-serif text-charcoal opacity-60 italic text-sm transition-all hover:opacity-100">
-        {isOpen ? "Toca para cerrar" : "Toca para abrir el lirio"}
+      <p className="mt-6 font-serif text-charcoal/60 italic text-sm tracking-wide group-hover:text-accent transition-colors">
+        {isOpen ? "Toca para plegar el lirio" : "Haz clic para ver la magia florecer"}
       </p>
     </div>
   );
