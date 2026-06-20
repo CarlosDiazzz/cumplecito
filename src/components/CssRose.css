@@ -4,7 +4,7 @@
   height: 60px;
   transform: scale(var(--scale, 1));
   pointer-events: none;
-  opacity: 0.2; /* Opacidad muy baja para un detalle sutil */
+  opacity: 0.6; /* Opacidad muy baja para un detalle sutil */
 }
 
 /* Variantes de color */

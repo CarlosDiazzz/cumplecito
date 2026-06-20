@@ -23,6 +23,7 @@ const Bee = ({ delay = 0, x = "50%", y = "50%", scale = 1 }) => {
     }
 
     // Utility to get the anime function if it's nested (sometimes happens with ESM)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const a = (anime as any).default || anime;
     
     if (typeof a.path !== 'function') {

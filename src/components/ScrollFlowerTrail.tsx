@@ -10,6 +10,8 @@ interface TrailFlowerProps {
   color: string;
 }
 
+const COLORS = ["#ba3763", "#d34076", "#dbb0cc", "#fddafa", "#fef2fe", "#eec0db", "#ca809a", "#e9d8e8"];
+
 const TrailFlower = ({ x, y, n, scale, color }: TrailFlowerProps) => {
   const flowerRef = useRef<SVGGElement>(null);
 
@@ -23,7 +25,13 @@ const TrailFlower = ({ x, y, n, scale, color }: TrailFlowerProps) => {
   }, [scale]);
 
   return (
-    <g transform={`translate(${x}, ${y})`} ref={flowerRef} fill={color} className={`flower-g _${n}`} style={{ '--scale': scale } as any}>
+    <g 
+      transform={`translate(${x}, ${y})`} 
+      ref={flowerRef} 
+      fill={color} 
+      className={`flower-g _${n}`} 
+      style={{ '--scale': scale } as React.CSSProperties}
+    >
       <g className="flower-a">
         <g className="side-left">
           {Array.from({ length: n }).map((_, j) => (
@@ -55,32 +63,29 @@ const ScrollFlowerTrail = () => {
   const lastScrollY = useRef(0);
   const initialized = useRef(false);
 
-  const colors = ["#ba3763", "#d34076", "#dbb0cc", "#fddafa", "#fef2fe", "#eec0db", "#ca809a", "#e9d8e8"];
-
-  // algorithmPoly to create initial garden
-  const createInitialGarden = () => {
-    const gon = 7;
-    const R = 2500;
-    const initialFlowers: TrailFlowerProps[] = [];
-    
-    for (let a = 0; a < 2 * Math.PI; a += 0.4) { // Reduced frequency for performance
-      const r = R * Math.cos(Math.PI / gon) / Math.cos(a % (2 * Math.PI / gon) - Math.PI / gon);
-      const x = (window.innerWidth / 2) + (r * Math.cos(a)) / 5; // Scaled down for screen
-      const y = 500 + (r * Math.sin(a)) / 5;
-      
-      initialFlowers.push({
-        id: `init-${a}`,
-        x,
-        y,
-        n: 2 + Math.floor(Math.random() * 4),
-        scale: 2 + Math.random() * 5,
-        color: colors[Math.floor(Math.random() * colors.length)]
-      });
-    }
-    setFlowers(initialFlowers);
-  };
-
   useEffect(() => {
+    const createInitialGarden = () => {
+      const gon = 7;
+      const R = 2500;
+      const initialFlowers: TrailFlowerProps[] = [];
+      
+      for (let a = 0; a < 2 * Math.PI; a += 0.4) { // Reduced frequency for performance
+        const r = R * Math.cos(Math.PI / gon) / Math.cos(a % (2 * Math.PI / gon) - Math.PI / gon);
+        const x = (window.innerWidth / 2) + (r * Math.cos(a)) / 5; // Scaled down for screen
+        const y = 500 + (r * Math.sin(a)) / 5;
+        
+        initialFlowers.push({
+          id: `init-${a}`,
+          x,
+          y,
+          n: 2 + Math.floor(Math.random() * 4),
+          scale: 2 + Math.random() * 5,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)]
+        });
+      }
+      setFlowers(initialFlowers);
+    };
+
     if (!initialized.current) {
       createInitialGarden();
       initialized.current = true;
@@ -95,7 +100,7 @@ const ScrollFlowerTrail = () => {
         const y = currentScrollY + Math.random() * window.innerHeight;
         const n = 2 + Math.floor(Math.random() * 4);
         const scale = 1 + Math.random() * 3;
-        const color = colors[Math.floor(Math.random() * colors.length)];
+        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
 
         setFlowers(prev => {
           const newFlowers = [...prev, { id: `scroll-${Date.now()}-${Math.random()}`, x, y, n, scale, color }];

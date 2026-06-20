@@ -5,6 +5,7 @@ const BeeFlower = () => {
   const beeRef = useRef<SVGSVGElement>(null);
   
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const anime_any = anime_module as any;
     const anime_fn = anime_any.default || anime_any;
     
