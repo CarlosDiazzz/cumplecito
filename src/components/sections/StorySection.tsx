@@ -68,6 +68,7 @@ const StorySection = () => {
       gsap.utils.toArray<HTMLElement>(".milestone-row").forEach((row) => {
         const textElement = row.querySelector(".milestone-text");
         const mediaElement = row.querySelector(".milestone-media");
+        const dotWrapper = row.querySelector(".milestone-dot-wrapper");
         const dotElement = row.querySelector(".milestone-dot");
 
         if (textElement) {
@@ -103,8 +104,8 @@ const StorySection = () => {
           );
         }
 
-        if (dotElement) {
-          gsap.fromTo(dotElement,
+        if (dotWrapper) {
+          gsap.fromTo(dotWrapper,
             { opacity: 0, scale: 0 },
             {
               opacity: 1,
@@ -117,6 +118,15 @@ const StorySection = () => {
               }
             }
           );
+        }
+
+        if (dotElement) {
+          ScrollTrigger.create({
+            trigger: row,
+            start: "top 60%",
+            end: "bottom 40%",
+            toggleClass: { targets: dotElement, className: "active" },
+          });
         }
       });
     }, containerRef);
@@ -141,38 +151,46 @@ const StorySection = () => {
         </h2>
 
         <div className="timeline-container relative space-y-24">
-          {/* Central Vertical Line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-dusty/40 -translate-x-1/2 hidden md:block origin-top timeline-line" />
+          {/* Central/Mobile Left Vertical Line */}
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 bg-dusty/40 -translate-x-1/2 origin-top timeline-line" />
 
           {storyMilestones.map((milestone, index) => {
             const isEven = index % 2 === 0;
             return (
               <div
                 key={milestone.id}
-                className={`milestone-row flex flex-col md:flex-row items-center gap-8 md:gap-16 relative ${
+                className={`milestone-row flex flex-col md:flex-row items-center gap-6 md:gap-16 relative pl-16 md:pl-0 ${
                   isEven ? "" : "row-reverse md:flex-row-reverse"
                 }`}
               >
                 {/* Text Content Column */}
-                <div className={`milestone-text md:w-1/2 w-full text-center ${isEven ? 'md:text-right' : 'md:text-left'}`}>
+                <div className={`milestone-text md:w-1/2 w-full text-left ${isEven ? 'md:text-right' : 'md:text-left'}`}>
                   <span className="text-xs uppercase tracking-widest text-accent font-sans font-bold block mb-1">
                     {milestone.date}
                   </span>
                   <h3 className="text-3xl font-serif text-charcoal mb-4">
                     {milestone.title}
                   </h3>
-                  <p className="text-charcoal/80 leading-relaxed italic font-sans max-w-xl mx-auto md:mx-0">
+                  <p className={`text-charcoal/80 leading-relaxed italic font-sans max-w-xl mx-0 ${
+                    isEven ? 'md:ml-auto md:mr-0' : 'md:mr-auto md:ml-0'
+                  }`}>
                     "{milestone.text}"
                   </p>
                 </div>
 
-                {/* Timeline Center Dot */}
-                <div className="milestone-dot w-10 h-10 rounded-full bg-white border-4 border-accent shadow-sm z-10 hidden md:flex items-center justify-center shrink-0">
-                  <div className="w-2.5 h-2.5 rounded-full bg-rose animate-pulse" />
+                {/* Timeline Center Dot Wrapper */}
+                <div className="milestone-dot-wrapper absolute left-6 -translate-x-1/2 top-8 md:relative md:left-auto md:translate-x-0 md:top-auto z-10">
+                  <div className="milestone-dot group w-10 h-10 rounded-full bg-white border-4 border-dusty/60 shadow-sm flex items-center justify-center shrink-0 transition-all duration-500 ease-out [&.active]:border-accent [&.active]:scale-125 [&.active]:shadow-[0_0_20px_rgba(255,92,137,0.6)]">
+                    {/* Outer glowing ripple ring when active */}
+                    <div className="absolute inset-0 rounded-full bg-accent/20 scale-100 opacity-0 group-[.active]:animate-ping-slow group-[.active]:opacity-100 transition-all duration-500 pointer-events-none" />
+                    
+                    {/* Inner dot */}
+                    <div className="milestone-dot-inner w-3 h-3 rounded-full bg-dusty group-[.active]:bg-accent transition-all duration-500 ease-out" />
+                  </div>
                 </div>
 
                 {/* Photo/Placeholder Column */}
-                <div className="milestone-media md:w-1/2 w-full max-w-md">
+                <div className="milestone-media md:w-1/2 w-full max-w-md mx-0 md:mx-auto">
                   {milestone.image ? (
                     <MilestoneImage src={milestone.image} alt={milestone.title} />
                   ) : (
