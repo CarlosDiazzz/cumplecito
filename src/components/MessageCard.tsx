@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
-import { Heart } from 'lucide-react';
 import { gsap } from 'gsap';
+
+const PAPER_GRAIN_URL =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>";
 
 const MessageCard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -98,6 +100,12 @@ const MessageCard = () => {
             isOpen ? 'pointer-events-auto' : 'pointer-events-none'
           }`}
         >
+          {/* Subtle paper grain texture */}
+          <div
+            className="absolute inset-0 rounded-lg pointer-events-none opacity-[0.05] mix-blend-multiply"
+            style={{ backgroundImage: `url("${PAPER_GRAIN_URL}")`, backgroundSize: '120px 120px' }}
+          />
+
           {/* Spiral binding rings on the left edge */}
           {isOpen && (
             <div className="absolute left-[-4px] top-6 bottom-6 flex flex-col justify-between w-2 pointer-events-none z-50">
@@ -127,12 +135,23 @@ const MessageCard = () => {
               }}
               className="w-full"
             >
-              <p 
-                ref={textRef} 
+              <p
+                ref={textRef}
                 style={{ lineHeight: `${lineHeight}px` }}
                 className="text-stone-700 font-sans text-xs sm:text-[13px] font-light leading-[23px] sm:leading-[28px] min-h-[196px] tracking-wide"
               />
             </div>
+
+            {isTypingDone && (
+              <motion.p
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                className="mt-2 text-right text-[#C86B85] font-serif italic text-sm sm:text-base pr-1"
+              >
+                Con todo mi cariño, Carlos
+              </motion.p>
+            )}
           </div>
 
           <div className="relative z-10 pl-5 sm:pl-6 flex justify-between items-center border-t border-stone-100 pt-3 mt-2">
@@ -213,7 +232,9 @@ const MessageCard = () => {
             }}
             className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-35 w-11 h-11 rounded-full bg-[#FAF7F2] border border-stone-250 shadow-[0_3px_10px_rgba(0,0,0,0.06)] flex items-center justify-center cursor-pointer hover:bg-[#F5F2EB] transition-colors"
           >
-            <Heart size={14} className="text-[#C86B85] fill-[#C86B85]/10 stroke-[1.2]" />
+            <span className="font-serif italic text-[13px] text-[#C86B85] tracking-tight select-none">
+              C&A
+            </span>
           </motion.button>
         )}
 
