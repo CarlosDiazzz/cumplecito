@@ -4,7 +4,6 @@ import HeroSection from './components/sections/HeroSection';
 import StorySection from './components/sections/StorySection';
 import GallerySection from './components/sections/GallerySection';
 import ReasonsSection from './components/sections/ReasonsSection';
-import WishesSection from './components/sections/WishesSection';
 
 function App() {
   return (
@@ -21,8 +20,6 @@ function App() {
       <GallerySection />
       
       <ReasonsSection />
-      
-      <WishesSection />
 
       {/* Footer */}
       <footer className="py-12 text-center text-charcoal/30 text-xs font-sans relative z-10">
