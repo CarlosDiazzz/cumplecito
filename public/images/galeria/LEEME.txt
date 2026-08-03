@@ -1,0 +1,6 @@
+# Carpeta para las fotos de la Galería de Recuerdos
+# Agrega aquí tus imágenes, por ejemplo:
+# - foto1.jpg
+# - foto2.jpg
+# - foto3.jpg
+# - foto4.jpg

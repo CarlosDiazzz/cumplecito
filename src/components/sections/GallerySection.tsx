@@ -33,7 +33,7 @@ const GallerySection = () => {
             Galería de Recuerdos
           </h2>
           <p className="text-charcoal/70 font-sans max-w-md mx-auto italic">
-            Algunos de los momentos más lindos e inolvidables que hemos compartido juntos.
+            Algunos de los momentos que hemos compartido juntos.
           </p>
         </div>
 

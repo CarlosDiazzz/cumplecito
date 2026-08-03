@@ -1,0 +1,5 @@
+# Carpeta para las fotos de la Línea de Tiempo (Story/Timeline)
+# Agrega aquí tus imágenes, por ejemplo:
+# - foto1.jpg
+# - foto2.jpg
+# - foto3.jpg

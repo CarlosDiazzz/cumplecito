@@ -13,7 +13,7 @@ const PhotoPlaceholder = ({ title, icon }: { title: string; icon?: string }) => 
       <div className="text-4xl mb-3 select-none filter drop-shadow-sm">{icon || "📸"}</div>
       <p className="text-sm font-sans font-semibold text-charcoal/70">Foto de "{title}"</p>
       <p className="text-xs font-sans text-charcoal/40 mt-1 max-w-[200px] mx-auto">
-        Coloca tu foto en <code className="bg-dusty/35 px-1 py-0.5 rounded">public/images/</code> y agrégala en <code className="bg-dusty/35 px-1 py-0.5 rounded">birthdayData.ts</code>
+        Coloca tu foto en <code className="bg-dusty/35 px-1 py-0.5 rounded">public/images/timeline/</code> y agrégala en <code className="bg-dusty/35 px-1 py-0.5 rounded">birthdayData.ts</code>
       </p>
     </div>
   );

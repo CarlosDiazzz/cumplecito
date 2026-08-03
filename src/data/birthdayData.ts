@@ -28,23 +28,26 @@ export interface BirthdayWish {
 export const storyMilestones: StoryMilestone[] = [
   {
     id: "milestone-1",
-    title: "El Comienzo",
-    date: "El primer día",
-    text: "Todo empezó como un susurro, una mirada casual que se convirtió en el inicio de mi mundo entero. Recuerdo perfectamente ese primer momento en el que nuestras vidas se cruzaron.",
+    title: "La dinamica grupal",
+    date: "La primera vez que te hablé 07 de septiembre del 2024",
+    text: "Quien diría que unas simples preguntas para conocernos entre todo el grupo terminaría con esto, yo no sabía que esos sabados serían tan importantes para mi.",
+    image: "/images/timeline/dibujitos.jpeg", // Puedes cambiar esta ruta a tu foto en public/images/timeline/
     fallbackIcon: "✨"
   },
   {
     id: "milestone-2",
-    title: "Nuestra Primera Cita",
-    date: "Un día inolvidable",
-    text: "Los nervios a flor de piel, las risas tímidas y esa sensación de que el tiempo se detenía a nuestro alrededor. Supe desde ese instante que eras alguien sumamente especial y diferente a todos.",
+    title: "La vez que me habia dado cuenta que me gustabas",
+    date: "el tiempo libre del 26 de octubre del 2024",
+    text: "Un dia que me hizo pensar que me gustabas, ese dia fue como cualquier otro pero no fue así, ese dia mientras trabajamos en una actividad del libro tu te recargaste en mi y subiste tu pierna sobre mi pierna fue tan lindo.",
+    image: "/images/timeline/stargazing.jpg", // Puedes cambiar esta ruta a tu foto en public/images/timeline/
     fallbackIcon: "☕"
   },
   {
     id: "milestone-3",
-    title: "Hoy y Siempre",
-    date: "Nuestro presente",
-    text: "Cada día a tu lado es un regalo maravilloso. Eres mi compañera de aventuras, mi confidente, mi mejor amiga y el amor de mi vida. Brindo por cada momento que compartimos y por los que vendrán.",
+    title: "La cita",
+    date: "20 de febrero del 2026 Nuestro presente",
+    text: "Que curioso que cuando vuelves a hablarme es para invitarme a salir pero no una salida cualquiera sino para ir a ver therian's. Un poco extraño haciendome pensar que tenias ciertos gustos.",
+    image: "/images/timeline/therian.jpeg", // Puedes cambiar esta ruta a tu foto en public/images/timeline/
     fallbackIcon: "🌹"
   }
 ];
@@ -85,25 +88,25 @@ export const reasonsToLove: ReasonToLove[] = [
 export const galleryPhotos: GalleryPhoto[] = [
   {
     id: "photo-1",
-    url: "/images/garden.jpg",
+    url: "/images/galeria/lindos.jpeg", // Guarda tus fotos en public/images/galeria/
     caption: "Nuestro jardín de recuerdos",
     rotation: -4
   },
   {
     id: "photo-2",
-    url: "/images/stargazing.jpg",
+    url: "/images/galeria/futuro.jpeg",
     caption: "Mirando el futuro juntos",
     rotation: 3
   },
   {
     id: "photo-3",
-    url: "/images/bees.jpg",
+    url: "/images/galeria/bonita.jpeg",
     caption: "Siempre revoloteando cerca",
     rotation: -2
   },
   {
     id: "photo-4",
-    url: "/images/origami.jpg",
+    url: "/images/galeria/detalles.jpeg",
     caption: "Detalles que duran para siempre",
     rotation: 5
   }
