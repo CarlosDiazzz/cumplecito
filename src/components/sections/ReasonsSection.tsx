@@ -29,7 +29,7 @@ const WishCard = ({ wish, index }: { wish: BirthdayWish; index: number }) => {
           </div>
           <div className="flex-1 flex items-center justify-center">
             <h3 className="font-serif text-2xl md:text-3xl text-charcoal font-medium text-center px-4">
-              Deseo #{index + 1}
+              {wish.title}
             </h3>
           </div>
           <p className="text-[10px] text-charcoal/40 text-center font-sans tracking-widest uppercase">

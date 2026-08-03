@@ -22,6 +22,7 @@ export interface GalleryPhoto {
 
 export interface BirthdayWish {
   id: string;
+  title: string;
   text: string;
 }
 
@@ -115,18 +116,22 @@ export const galleryPhotos: GalleryPhoto[] = [
 export const birthdayWishes: BirthdayWish[] = [
   {
     id: "wish-1",
-    text: "Que nunca dejes de sonreír, porque tu sonrisa ilumina hasta mis días más oscuros."
+    title: "Felicidad",
+    text: "Que nunca dejes de sonreír, porque tu sonrisa es lo mas bonito que he visto."
   },
   {
     id: "wish-2",
-    text: "Que todos tus sueños, por muy grandes que sean, se hagan realidad."
+    title: "Propósito",
+    text: "Que todas tus metas y sueños se hagan realidad, y que siempre logres lo que te propongas."
   },
   {
     id: "wish-3",
-    text: "Que siempre te sientas tan amada como lo eres en este preciso momento."
+    title: "Entorno",
+    text: "Que siempre estés rodeada de personas que te aman y te respetan."
   },
   {
     id: "wish-4",
-    text: "Que este nuevo año de vida te traiga aventuras infinitas y mucha paz."
+    title: "Adversidad",
+    text: "Que siempre tengas la fuerza y la determinación para superar cualquier obstáculo que se cruce en tu camino."
   }
 ];
