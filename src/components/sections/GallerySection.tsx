@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
 import { galleryPhotos } from '../../data/birthdayData';
@@ -20,6 +21,7 @@ const GallerySection = () => {
   }, [selectedPhoto]);
 
   return (
+    <>
     <section className="py-32 relative z-10 w-full overflow-hidden bg-gradient-to-b from-white/10 to-transparent">
       {/* Decorative background flowers */}
       <div className="absolute inset-0 pointer-events-none -z-10">
@@ -82,8 +84,10 @@ const GallerySection = () => {
           ))}
         </div>
       </div>
+    </section>
 
-      {/* Lightbox / Zoom Modal */}
+    {/* Lightbox / Zoom Modal - portaled to body so it always stacks above every section */}
+    {createPortal(
       <AnimatePresence>
         {selectedPhoto && (
           <motion.div
@@ -91,10 +95,10 @@ const GallerySection = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedPhoto(null)}
-            className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex flex-col items-center justify-center p-4"
+            className="fixed inset-0 bg-black/85 backdrop-blur-md z-[200] flex flex-col items-center justify-center p-4"
           >
             {/* Close Button */}
-            <button 
+            <button
               onClick={() => setSelectedPhoto(null)}
               className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"
               aria-label="Cerrar"
@@ -112,9 +116,9 @@ const GallerySection = () => {
               className="bg-white p-5 pb-10 shadow-2xl rounded-sm max-w-xl w-full origin-center"
             >
               <div className="aspect-[4/3] w-full bg-neutral-100 rounded-sm overflow-hidden border border-neutral-100">
-                <img 
-                  src={selectedPhoto.url} 
-                  alt={selectedPhoto.caption} 
+                <img
+                  src={selectedPhoto.url}
+                  alt={selectedPhoto.caption}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -126,8 +130,10 @@ const GallerySection = () => {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
-    </section>
+      </AnimatePresence>,
+      document.body
+    )}
+    </>
   );
 };
 

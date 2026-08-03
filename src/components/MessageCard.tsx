@@ -11,7 +11,7 @@ const MessageCard = () => {
   const [isMobile, setIsMobile] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
   
-  const fullText = "Feliz cumpleaños, mi amor. Que este día esté lleno de la misma luz y alegría que tú traes a mi vida todos los días. Eres tan hermosa y delicada como estos lirios, pero con una fuerza increíble. Eres mi persona favorita en el mundo.\n\n¡Te quiero muchísimo!";
+  const fullText = "Feliz cumpleaños, mi amor. Que este día esté lleno de la misma luz y alegría que tú traes a mi vida todos los días. Espero que disfrutes cada momento de tu día.  Eres mi persona favorita. Deseo poder hacerte feliz todos los días y que ese 'Hola niños' del que tanto grabamos alguna vez se convierta en un 'miren niños'. Por ultimo quiero decirte que me esforzare para estar a la altura de tus expectativas.\n\n¡Te quiero muchísimo!";
 
   // Detect screen size for responsive styling
   useEffect(() => {
@@ -60,7 +60,7 @@ const MessageCard = () => {
     }
   }, [isOpen, isMobile]); // Re-run if screen size changes layout
 
-  const lineHeight = isMobile ? 23 : 28;
+  const lineHeight = isMobile ? 30 : 34;
 
   return (
     <div className="relative z-20 mt-12 flex flex-col items-center justify-center w-full min-h-[460px] sm:min-h-[500px]">
@@ -68,7 +68,7 @@ const MessageCard = () => {
       {/* Outer Envelope Wrapper */}
       <div 
         onClick={() => !isOpen && setIsOpen(true)}
-        className={`relative w-80 sm:w-[440px] h-56 sm:h-64 bg-[#FAF7F2] rounded-xl border border-stone-200/80 shadow-[0_6px_20px_rgba(139,126,116,0.05)] flex items-center justify-center cursor-pointer transition-all duration-500 overflow-visible ${
+        className={`relative w-80 sm:w-[440px] h-56 sm:h-64 bg-[#FAF7F2] rounded-xl border border-[#E7DAC4]/70 shadow-[0_6px_20px_rgba(139,126,116,0.05)] flex items-center justify-center cursor-pointer transition-all duration-500 overflow-visible ${
           !isOpen ? 'hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(139,126,116,0.1)]' : ''
         }`}
       >
@@ -77,9 +77,10 @@ const MessageCard = () => {
 
         {/* 2. The Stationery Notebook Paper - Z-10 / Z-40 */}
         <motion.div
+          layout
           animate={isOpen ? {
-            y: isMobile ? -145 : -150,
-            height: isMobile ? 365 : 340,
+            y: isMobile ? -155 : -160,
+            height: "auto",
             scale: 1,
             opacity: 1,
             zIndex: 40,
@@ -96,7 +97,7 @@ const MessageCard = () => {
             duration: 0.65,
             ease: [0.16, 1, 0.3, 1] // Apple-style transition
           }}
-          className={`absolute left-[4%] right-[4%] top-4 bg-[#FFFDFB] rounded-lg border border-stone-150 p-5 sm:p-7 pr-4 flex flex-col justify-between overflow-hidden ${
+          className={`absolute left-[4%] right-[4%] top-4 bg-[#FBF5EA] rounded-lg border border-[#EAE0CC]/80 p-5 sm:p-7 flex flex-col justify-between overflow-hidden ${
             isOpen ? 'pointer-events-auto' : 'pointer-events-none'
           }`}
         >
@@ -137,8 +138,8 @@ const MessageCard = () => {
             >
               <p
                 ref={textRef}
-                style={{ lineHeight: `${lineHeight}px` }}
-                className="text-stone-700 font-sans text-xs sm:text-[13px] font-light leading-[23px] sm:leading-[28px] min-h-[196px] tracking-wide"
+                style={{ lineHeight: `${lineHeight}px`, fontFamily: "var(--font-hand)" }}
+                className="text-stone-700 text-lg sm:text-xl font-medium min-h-[60px] tracking-wide"
               />
             </div>
 
@@ -147,19 +148,20 @@ const MessageCard = () => {
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-                className="mt-2 text-right text-[#C86B85] font-serif italic text-sm sm:text-base pr-1"
+                style={{ fontFamily: "var(--font-hand)" }}
+                className="mt-1 text-right text-[#C86B85] text-xl sm:text-2xl pr-1"
               >
                 Con todo mi cariño, Carlos
               </motion.p>
             )}
           </div>
 
-          <div className="relative z-10 pl-5 sm:pl-6 flex justify-between items-center border-t border-stone-100 pt-3 mt-2">
+          <div className="relative z-10 pl-5 sm:pl-6 pr-2 sm:pr-3 flex justify-between items-center border-t border-[#EAE0CC] pt-3 mt-2">
             <div className="flex gap-1">
               <span className="text-[#E25C5C] text-sm opacity-80">❤</span>
               <span className="text-[#C86B85] text-sm opacity-80">❤</span>
             </div>
-            
+
             {isTypingDone && (
               <button
                 onClick={(e) => {
@@ -230,7 +232,7 @@ const MessageCard = () => {
               e.stopPropagation();
               setIsOpen(true);
             }}
-            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-35 w-11 h-11 rounded-full bg-[#FAF7F2] border border-stone-250 shadow-[0_3px_10px_rgba(0,0,0,0.06)] flex items-center justify-center cursor-pointer hover:bg-[#F5F2EB] transition-colors"
+            className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-35 w-11 h-11 rounded-full bg-[#FAF7F2] border border-[#E7DAC4] shadow-[0_3px_10px_rgba(0,0,0,0.06)] flex items-center justify-center cursor-pointer hover:bg-[#F5F2EB] transition-colors"
           >
             <span className="font-serif italic text-[13px] text-[#C86B85] tracking-tight select-none">
               C&A

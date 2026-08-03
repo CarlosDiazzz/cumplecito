@@ -1,5 +1,6 @@
 import BeeSwarm from './components/BeeSwarm';
 import ParticleLayer from './components/ParticleLayer';
+import RunningDog from './components/RunningDog';
 import HeroSection from './components/sections/HeroSection';
 import StorySection from './components/sections/StorySection';
 import GallerySection from './components/sections/GallerySection';
@@ -11,6 +12,7 @@ function App() {
       {/* Decorative Interactive Background Layers */}
       <BeeSwarm />
       <ParticleLayer />
+      <RunningDog />
       
       {/* Sections */}
       <HeroSection />
